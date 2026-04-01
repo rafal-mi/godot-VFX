@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cvb1vgt52x0cy"]
+[gd_scene load_steps=18 format=3 uid="uid://cvb1vgt52x0cy"]
 
 [ext_resource type="Script" uid="uid://dq7h3nectp4hy" path="res://Scripts/camera.gd" id="1_r84vf"]
 [ext_resource type="ArrayMesh" uid="uid://cmswy8js5ghvq" path="res://Models/Mountains.obj" id="2_tbjhe"]
+[ext_resource type="Texture2D" uid="uid://1by8e128puvl" path="res://Textures/02-sparks-07_colorize.png" id="3_tbjhe"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_338y4"]
 sky_energy_multiplier = 0.65
@@ -35,6 +36,45 @@ size = Vector3(150, 0, 150)
 size = Vector3(150, 1, 150)
 
 [sub_resource type="BoxMesh" id="BoxMesh_appbf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_74yy3"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+vertex_color_is_srgb = true
+albedo_texture = ExtResource("3_tbjhe")
+
+[sub_resource type="Curve" id="Curve_aypq8"]
+_data = [Vector2(0, 0.520078), 0.0, 0.0, 0, 0, Vector2(0.987138, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_qgw32"]
+_limits = [0.0, 3.5, 0.0, 1.0]
+_data = [Vector2(0, 3.5), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_qrex3"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_oqxbv"]
+curve_x = SubResource("Curve_aypq8")
+curve_y = SubResource("Curve_qgw32")
+curve_z = SubResource("Curve_qrex3")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2dco4"]
+particle_flag_align_y = true
+direction = Vector3(1, 0.4, 0)
+spread = 10.0
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+scale_min = 0.05
+scale_max = 0.15
+scale_curve = SubResource("CurveXYZTexture_oqxbv")
+color = Color(4.5, 1, 1, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_eepf5"]
 
 [node name="World" type="Node3D"]
 
@@ -71,3 +111,11 @@ shape = SubResource("BoxShape3D_4gkui")
 transform = Transform3D(0.7, 0, 0, 0, 2, 0, 0, 0, 0.7, -3.27909, -0.131935, 0)
 mesh = SubResource("BoxMesh_appbf")
 skeleton = NodePath("../..")
+
+[node name="VFX_Sparks01" type="Node3D" parent="."]
+
+[node name="Sparks" type="GPUParticles3D" parent="VFX_Sparks01"]
+material_override = SubResource("StandardMaterial3D_74yy3")
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_2dco4")
+draw_pass_1 = SubResource("QuadMesh_eepf5")
