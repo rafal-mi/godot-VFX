@@ -73,6 +73,10 @@ scale_min = 0.05
 scale_max = 0.15
 scale_curve = SubResource("CurveXYZTexture_oqxbv")
 color = Color(4.5, 1, 1, 1)
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.3
+collision_use_scale = true
 
 [sub_resource type="QuadMesh" id="QuadMesh_eepf5"]
 
@@ -104,6 +108,10 @@ scale_min = 0.05
 scale_max = 0.15
 scale_curve = SubResource("CurveXYZTexture_2dco4")
 color = Color(2, 1, 4.5, 1)
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.3
+collision_use_scale = true
 
 [node name="World" type="Node3D"]
 
@@ -136,6 +144,9 @@ skeleton = NodePath("../../..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Scene/Ground"]
 shape = SubResource("BoxShape3D_4gkui")
 
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="Scene/Ground"]
+transform = Transform3D(70, 0, 0, 0, 0.1, 0, 0, 0, 70, 0, 0, 0)
+
 [node name="Cube" type="MeshInstance3D" parent="Scene"]
 transform = Transform3D(0.7, 0, 0, 0, 2, 0, 0, 0, 0.7, -3.27909, -0.131935, 0)
 mesh = SubResource("BoxMesh_appbf")
@@ -144,6 +155,7 @@ skeleton = NodePath("../..")
 [node name="VFX_Sparks01" type="Node3D" parent="."]
 
 [node name="Sparks" type="GPUParticles3D" parent="VFX_Sparks01"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.563758, 0)
 material_override = SubResource("StandardMaterial3D_74yy3")
 amount = 40
 process_material = SubResource("ParticleProcessMaterial_2dco4")
@@ -153,6 +165,7 @@ draw_pass_1 = SubResource("QuadMesh_eepf5")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -11.8418)
 
 [node name="Sparks" type="GPUParticles3D" parent="VFX_Sparks02"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.294555, 0)
 material_override = SubResource("StandardMaterial3D_74yy3")
 amount = 40
 explosiveness = 1.0
